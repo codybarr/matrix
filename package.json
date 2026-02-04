@@ -15,7 +15,7 @@
     "matrix": "./dist/index.js"
   },
   "scripts": {
-    "start": "bun run index.ts",
+    "start": "bun run src/index.ts",
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
