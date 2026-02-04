@@ -4,17 +4,26 @@
   "description": "Matrix-style rain TUI",
   "module": "index.ts",
   "type": "module",
+  "main": "./dist/index.js",
+  "keywords": [
+    "cli",
+    "tui",
+    "matrix",
+    "screensaver"
+  ],
   "bin": {
-    "matrix": "./index.ts"
+    "matrix": "./dist/index.js"
   },
   "scripts": {
     "start": "bun run index.ts",
-    "run:matrix": "bun run index.ts"
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
+    "@types/bun": "latest",
     "typescript": "^5"
   },
   "engines": {

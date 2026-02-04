@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Matrix-style rain TUI
  * - Halfwidth Katakana + numbers + ASCII (single-cell, no jitter)
@@ -30,10 +30,11 @@ const POOL: string[] = [...halfwidthKatakana];
 for (const c of ASCII_EXTRA) POOL.push(c);
 
 // True color from screenshot: black bg, dim trail #006600, main rain #00FF40, leader #E0FFE0
-const rgb = (r: number, g: number, b: number) => `${ESC}[1;38;2;${r};${g};${b}m`;
-const GREEN_DIM = rgb(0, 64, 0);       // #004000 (darker than #006600 for trail top)
-const GREEN_MID = rgb(0, 102, 0);     // #006600 dim green
-const GREEN_MAIN = rgb(0, 224, 0);    // #00E000 bright lime
+const rgb = (r: number, g: number, b: number) =>
+  `${ESC}[1;38;2;${r};${g};${b}m`;
+const GREEN_DIM = rgb(0, 64, 0); // #004000 (darker than #006600 for trail top)
+const GREEN_MID = rgb(0, 102, 0); // #006600 dim green
+const GREEN_MAIN = rgb(0, 224, 0); // #00E000 bright lime
 const GREEN_LEAD = rgb(224, 255, 224); // #E0FFE0 pale luminous (leader at bottom)
 
 function randomInt(max: number): number {
@@ -45,7 +46,7 @@ function pickFromPool(): string {
 }
 
 interface Column {
-  y: number;       // bottom of drop (head position in row units)
+  y: number; // bottom of drop (head position in row units)
   length: number;
   speed: number;
   remainder: number;
@@ -53,7 +54,11 @@ interface Column {
 }
 
 /** Bright leader at bottom of column; trail fades from dim (top) to main green toward bottom. */
-function greenSgr(distFromBottom: number, trailLength: number, isLead: boolean): string {
+function greenSgr(
+  distFromBottom: number,
+  trailLength: number,
+  isLead: boolean,
+): string {
   if (isLead) return GREEN_LEAD; // leader at bottom = pale luminous
   const t = trailLength > 1 ? distFromBottom / (trailLength - 1) : 0;
   if (t >= 0.5) return GREEN_MAIN;
@@ -95,7 +100,9 @@ function run(): void {
   });
 
   // Raw mode: no echo, catch Ctrl+C
-  const tty = stdout as NodeJS.WriteStream & { setRawMode?: (mode: boolean) => void };
+  const tty = stdout as NodeJS.WriteStream & {
+    setRawMode?: (mode: boolean) => void;
+  };
   if (typeof tty.setRawMode === "function") {
     tty.setRawMode(true);
   }
@@ -138,12 +145,18 @@ function run(): void {
       if (col.y > rows + col.length + 2) {
         col.y = -randomInt(rows) - 2;
         col.length = 5 + randomInt(rows);
-        col.chars = Array.from({ length: col.length + 5 }, () => pickFromPool());
+        col.chars = Array.from({ length: col.length + 5 }, () =>
+          pickFromPool(),
+        );
       }
 
       const headRow = Math.floor(col.y);
       const topOfDrop = headRow - col.length;
-      for (let r = Math.max(0, topOfDrop); r <= Math.min(rows - 1, headRow); r++) {
+      for (
+        let r = Math.max(0, topOfDrop);
+        r <= Math.min(rows - 1, headRow);
+        r++
+      ) {
         const dist = headRow - r; // 0 at bottom of drop, col.length at top
         const isLead = dist === 0; // bright leader at bottom of column
         const charIndex = dist % col.chars.length;
