@@ -1,11 +1,11 @@
 {
-  "name": "bun-matrix",
+  "name": "@nosweat/matrix",
   "version": "1.0.0",
-  "description": "Matrix-style rain TUI with Katakana, numbers, and ASCII symbols",
+  "description": "Matrix-style rain TUI",
   "module": "index.ts",
   "type": "module",
   "bin": {
-    "bun-matrix": "./index.ts"
+    "matrix": "./index.ts"
   },
   "scripts": {
     "start": "bun run index.ts",
