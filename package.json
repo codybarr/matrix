@@ -1,0 +1,23 @@
+{
+  "name": "bun-matrix",
+  "version": "1.0.0",
+  "description": "Matrix-style rain TUI with Katakana, numbers, and ASCII symbols",
+  "module": "index.ts",
+  "type": "module",
+  "bin": {
+    "bun-matrix": "./index.ts"
+  },
+  "scripts": {
+    "start": "bun run index.ts",
+    "run:matrix": "bun run index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
